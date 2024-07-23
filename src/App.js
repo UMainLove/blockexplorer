@@ -1,26 +1,46 @@
+import React, { useEffect, useState } from 'react';
 import { Alchemy, Network } from 'alchemy-sdk';
-import { useEffect, useState } from 'react';
 
 import './App.css';
 
-// Refer to the README doc for more information about using API
-// keys in client-side code. You should never do this in production
-// level code.
+import BlockDetails from './components/BlockDetails';
+import TransactionList from './components/TransactionList';
+
+import useWebSocket from './components/WebSocketService';
+
+import Block from './components/Block';
+import AccountInfo from './components/AccountInfo';
+import Navigation from './components/Navigation';
+
+import NFTMetadata from './components/NFTMetadata';
+
+import DataFetcher from './components/DataFetcher';
+
+
 const settings = {
   apiKey: process.env.REACT_APP_ALCHEMY_API_KEY,
   network: Network.ETH_MAINNET,
 };
 
 
-// In this week's lessons we used ethers.js. Here we are using the
-// Alchemy SDK is an umbrella library with several different packages.
-//
-// You can read more about the packages here:
-//   https://docs.alchemy.com/reference/alchemy-sdk-api-surface-overview#api-surface
 const alchemy = new Alchemy(settings);
 
 function App() {
   const [blockNumber, setBlockNumber] = useState();
+
+    /*Handle data received from WebSocket*/
+  const handleWebSocketMessage = (data) => {
+    console.log("Data received from WebSocket: ", data);
+
+    /*Assuming data received includes block number*/
+    setBlockNumber(JSON.parse(data).blockNumber);
+  }
+
+  /*WebSocket URL*/
+  const wsUrl = process.env.REACT_APP_ALCHEMY_WS_URL;
+  
+   /*Establish WebSocket connection and listen for messages*/
+   useWebSocket(wsUrl, handleWebSocketMessage);
 
   useEffect(() => {
     async function getBlockNumber() {
@@ -28,9 +48,22 @@ function App() {
     }
 
     getBlockNumber();
-  });
+  }, []);
 
-  return <div className="App">Block Number: {blockNumber}</div>;
+   
+
+  return (
+    <div className="App">
+      <h1>Ethereum Block Explorer</h1>
+      {blockNumber && <Block blockNumber={blockNumber} alchemy={alchemy} />}
+      {blockNumber && <BlockDetails alchemy={alchemy} />}
+      <Navigation current={blockNumber} setCurrent={setBlockNumber} />
+      {blockNumber && <TransactionList blockNumber={blockNumber} alchemy={alchemy} />}
+      <AccountInfo alchemy={alchemy} />
+      <NFTMetadata />
+      <DataFetcher />
+    </div>
+);
 }
 
 export default App;

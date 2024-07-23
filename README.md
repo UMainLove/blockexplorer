@@ -21,32 +21,6 @@ Clone this project to pull down some basic starter code.
 
 After that cd into the base directory of the project and run `npm install` to download all the project dependencies.
 
-In this project we chose to use React for a front-end and added minimal front-end code to get you going, but feel free to use any front-end stack you like.
-
-Unlike the lessons this week that used the Ethereum JSON-RPC API and the `ethers.js` library to communicate with the Ethereum network, the starter code in this project uses the [AlchemySDK](https://docs.alchemy.com/reference/alchemy-sdk-quickstart?a=eth-bootcamp). The AlchemySDK's core package wraps almost all of the `ethers.js` provider functionality that we learned about and should feel very familiar to you. 
-
-For example, the following `ethers.js` code
-```js
-const blockNumber = await provider.getBlockNumber();
-```
-can be written using the AlchemySDK like so:
-```js
-const blockNumber = await alchemy.core.getBlockNumber()
-```
-Another `ethers.js ` example
-```js
-const transcations = await provider.getBlockWithTransactions(SOME_BLOCK_NUMBER)
-```
-translates to
-```js
-const transactions = await alchemy.core.getBlockWithTransactions(SOME_BLOCK_NUMBER)
-```
-and so on.
-
-There are some `ethers.js` provider functions that are not often-used and therefore not included in `alchemy.core`. But if you ever need the full ethers provider functionality you can access the provider directly with the following code:
-```js
-const ethersProvider = await alchemy.config.getProvider();
-```
 
 You can find lots of good docs on the AlchemySDK here:
   * [API Quickstart](https://docs.alchemy.com/reference/alchemy-sdk-quickstart?a=eth-bootcamp)
@@ -66,7 +40,7 @@ Create an empty `.env` file in the base directory of this project.
 Add the following line to the `.env` file replacing `YOUR_ALCHEMY_API_KEY` with your api key.
 
 ```sh
-REACT_APP_ALCHEMY_API_KEY=YOUR_ALCHEMY_API_KEY
+REACT_APP_ALCHEMY_API_KEY="YOUR_ALCHEMY_API_KEY"
 ```
 
 Do not remove the `REACT_APP_` prefix. React uses that to import env variables.
@@ -90,39 +64,48 @@ Running the command above will run the app in the development mode. Open [http:/
 
 The webpage will automatically reload when you make code changes.
 
-What you'll see in the browser is Ethereum Mainnet's current block number. Not very exciting, but that's where you come in to save the day!
+## 4. This Forked Version of Ethereum Block Explorer uses the Alchemy WebSocket Connection
 
-## 4. Make the blockexplorer cool!
+In the .env file:
 
-The starter code pulls down the current block number for you.
+Add the following line to the `.env` file replacing `YOUR_ALCHEMY_WS_KEY` with your Alchemy Api Key.
 
-Can you get more information about the current block and display it in the page?
-Take a look at [alchemy.core.getBlock()](https://docs.alchemy.com/reference/sdk-getblock?a=eth-bootcamp) for how you might go about that.
+```sh
+REACT_APP_ALCHEMY_WS_URL="wss://eth-mainnet.g.alchemy.com/v2/YOUR_ALCHEMY_WS_KEY"
+```
 
-Blocks contains transactions. Can you get the list of transactions for a given block? Can you use [alchemy.core.getBlockWithTransactions()](https://docs.alchemy.com/reference/sdk-getblockwithtransactions?a=eth-bootcamp) for this?
+Do not remove the `REACT_APP_` prefix. React uses that to import env variables.
 
-How about getting details for individual transactions? The [alchemy.core.getTransactionReceipt()](https://docs.alchemy.com/reference/sdk-gettransactionreceipt?a=eth-bootcamp) looks handy.
+## 5. This Forked Version of Ethereum Block Explorer uses the Alchemy Webhooks Service
 
-## 5. More ideas to think about
+To Enable The Webooks in Alchemy Dashboard go to:
 
-- Connecting the dots.
-  - Allow users to click on a block listed in the webpage to get the block's details including its list of transactions
-  - From the list of transactions allow users to click on specific transactions to get the details of the transaction
-- Make an accounts page where a user can look up their balance or someone else's balance
+Data Services > Webhooks
 
-## 6. Supercharge your blockexplorer using AlchemySDK's specialized APIs
+Choose GraphQL and click on '+ Create Webhook'
 
-By using the AlchemySDK you can really supercharge your projects with additional API functionality that isn't included in the `ethers.js` package including:
-  * NFT methods
-  * WebSocket methods
-  * Alchemy's Transact API functionality
-  * endpoints for using Alchemy's Notify Webhooks
+** NOTE **
 
-Read more about the above in the [Alchemy SDK Surface docs](https://docs.alchemy.com/reference/alchemy-sdk-api-surface-overview?a=eth-bootcamp). Using the SDK can implement the following features?
+At this point you should paste a webhook link to 'Test' and then 'Create'
 
-- Given a contract address and token id, can you get the NFT's metadata?
-- What is the floor price of an NFT right now?
-- Did a pending transaction get mined?
-- What transfers did an address receive this year?
+] >>> THIS FORK USES A FREEMIUM THIR-PARTY REVERSE PROXY SERVER CROSS-PLATFORM SERVICE. 
 
-Good luck and have fun!
+Open [https://www.ngrok.com], Create an Account (or login if you already have one)
+
+You can Find the Guide on how to use the Ngrok service and Alchemy APIs at these resources:
+  * [Ngrok APIs](https://ngrok.com/docs/)
+  * [Alchemy Webhook APIs](https://docs.alchemy.com/reference/notify-api-quickstart)
+
+] Remember to paste the 'https://random_gateway_number.ngrok-free.app/webhook' inside the 'WEBHOOK URL' in the Alchemy Webhooks Dashboard
+
+## 6. This Forked Version of Ethereum Block Explorer uses an additional server to manage the Webhook CESTPOST/CESTGET connection between Alchemy and Ngrok
+
+Set your server.js on [http://localhost:3001](http://localhost:3001)
+
+Start your Ngrok client running : 'ngrok http http://localhost:3001' in a terminal 
+
+Start your server running: 'node server.js' in the server directory
+
+** NOTE **
+
+If you use the Free version of Ngrok, when you quit the Ngrok Client, the link changes so you must create a new Alchemy Webhook with the new link and restart the server.js in order to keep it work
