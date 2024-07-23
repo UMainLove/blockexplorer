@@ -1,0 +1,26 @@
+.block-details {
+    background-color: #f7f7f788;
+    border: 1px solid #d1d1d1;
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 10px;
+  }
+  
+  .block-details h2 {
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  .detail-item {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .block-details-loading {
+    font-size: 16px;
+    color: #666;
+  }
+  

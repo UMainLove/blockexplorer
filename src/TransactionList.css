@@ -1,0 +1,35 @@
+  .transaction-container {
+    padding: 20px;
+  }
+  
+  .transaction-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 10px;
+  }
+  
+  .transaction-box {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #f9f9f97b;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    justify-content: space-around;
+  }
+
+  .arrow {
+    align-self: center;
+    font-size: 24px;
+  }
+  
+  .transaction-box p {
+    margin: 5px 0;
+    word-wrap: break-word; /* Ensures text wraps to avoid overflow */
+    text-overflow: ellipsis; /* Adds an ellipsis if the text overflows */
+    white-space: normal; /* Allows text to wrap to the next line */
+    overflow: hidden;
+  }
+    
+  

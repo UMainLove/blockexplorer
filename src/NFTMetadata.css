@@ -1,0 +1,38 @@
+.nft-metadata {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  .nft-metadata input[type="text"], .nft-metadata button {
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    display: block;
+    width: 100%;
+  }
+  
+  .nft-metadata button {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .nft-metadata button:hover {
+    background-color: #45a049;
+  }
+  
+  .metadata-display pre {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 15px;
+    overflow: auto;
+    border-radius: 4px;
+  }
+
+  .metadata-display {
+    margin-top: 10px;
+  }
